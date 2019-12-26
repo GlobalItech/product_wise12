@@ -18,6 +18,8 @@
             'views/pro_wise_report.xml'
             ],
     'images': ['static/description/banner.jpg'],
+     'price':'20.0',
+    'currency': 'EUR',
     'installable': True,
     'auto_install': False,
 }
