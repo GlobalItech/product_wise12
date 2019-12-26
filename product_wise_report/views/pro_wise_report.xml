@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="pro_wise_report">
+         <t t-call="web.html_container">
+             <t t-call="web.external_layout">
+                 <div class="page">
+                     <div class="oe_structure"/>
+                     <div class="row">
+                         <div class="col-xs-12">
+                            <center style="margin-top:15px;"><strong  style="font-size:32px;">Product Wise Report</strong></center><br/>
+                         </div>
+                         <div class="col-xs-12">
+                             <center style="margin-top:15px;">
+                                <strong  style="font-size:22px;">Period From:
+                                <span style="font-size:22px;" t-esc="date_order2" t-options="{&quot;widget&quot;: &quot;date&quot;}"/></strong>
+                                <strong style="font-size:22px;">To
+                                <span style="font-size:22px;" t-esc="date_order" t-options="{&quot;widget&quot;: &quot;date&quot;}"/></strong>
+                             </center>
+                         </div>
+                         <br/> <br/> <br/> <br/> <br/> <br/>
+                         <div class="col-xs-12">
+                                <br/><br/><br/>
+                            <table style="border:1px solid black;" class="table table-condensed">
+                                <thead>
+                                    <th width="5%" style="border:1px solid black;" class="text-center"><strong>Code</strong></th>
+                                    <th width="15%" style="border:1px solid black;" class="text-center"><strong>Product Name</strong></th>
+                                    <th width="25%" style="border:1px solid black;" class="text-center"><strong>Description</strong></th>
+                                    <th width="15%" style="border:1px solid black;" class="text-center"><strong>Avg Rate</strong></th>
+                                    <th width="5%" style="border:1px solid black;" class="text-center"><strong>UOM</strong></th>
+                                    <th width="15%" style="border:1px solid black;" class="text-center"><strong>Qty Sale</strong></th>
+                                    <th width="15%" style="border:1px solid black;" class="text-center"><strong>Amount Sale</strong></th>
+
+                                </thead>
+                                <tbody>
+                                    <t t-set="avg" t-value="0"/>
+                                    <t t-set="check" t-value="0" />
+                                    <t t-set="average" t-value="0"/>
+                                    <t t-set="tamount" t-value="0" />
+                                    <t t-set="count" t-value="0" />
+
+                                    <t t-foreach="values" t-as="v">
+                                    <t t-set="avg" t-value="0"/>
+                                    <t t-set="amount" t-value="0" />
+
+                                    <t t-set="check1" t-value="0" />
+                                        <t t-foreach="datacr" t-as="line">
+
+                                            <t t-if="line['ware_house'] == v">
+                                            <t t-set="check1" t-value="1" />
+
+                                                <t t-if="count == 0">
+                                                    <tr style="border:1px solid black;">
+                                                        <td colspan="7" width="20%" style="border:1px solid black;" class="text-center">
+                                                            <strong><span t-esc="v"/></strong>
+                                                        </td>
+                                                    </tr>
+                                                </t>
+                                                <t t-set="count" t-value="1"/>
+                                                <t t-set="net" t-value="0"/>
+                                                <t t-set="net1" t-value="0"/>
+
+                                            <tr>
+                                                <td width="5%" style=" border:1px solid black;">
+                                                    <span t-esc="line['code']"/>
+                                                </td>
+                                                <td width="15%" style=" border:1px solid black;">
+                                                     <span t-esc="line['name']"/>
+                                                </td>
+                                                <td width="25%" style="border:1px solid black;">
+                                                     <span t-esc="line['description']"/>
+                                                </td>
+                                                <td width="15%" class="text-center" style=" border:1px solid black;">
+
+                                                      <span style="float:center;" t-esc="'{:,.2f}'.format(line['avg'])"/>
+                                                      <t t-set="avg" t-value="avg + line['avg']"/>
+                                                </td>
+
+                                                <td width="5%" style="border:1px solid black;">
+                                                       <span t-esc="line['uom']"/>
+                                                </td>
+
+                                                <td width="15%" class="text-center" style="border:1px solid black;">
+                                                    <span style="float:center;" t-esc="'{:,.2f}'.format(line['sale_qty'])"/>
+                                                </td>
+
+
+                                                <td width="15%" class="text-center" style="border:1px solid black;">
+                                                    <span style="float:center;" t-esc="'{:,.2f}'.format(line['sale_amount'])"/>
+                                                    <t t-set="amount" t-value="amount + line['sale_amount']"/>
+
+                                                </td>
+                                            </tr>
+
+                                        </t>
+                                    </t>
+                                         <tr>
+                                            <td width="5%" style=" border:1px solid black;">
+            <!--                                    <span t-esc="line['code']"/>-->
+                                            </td>
+                                            <td width="15%" style=" border:1px solid black;">
+            <!--                                     <span t-esc="line['name']"/>-->
+                                            </td>
+                                            <td width="25%"  class="text-center" style="border:1px solid black;">
+                                                <Strong>Total</Strong>
+            <!--                                     <span t-esc="line['description']"/>-->
+                                            </td>
+                                            <td width="15%" class="text-center" style=" border:1px solid black;">
+
+                                                  <span style="float:center;" t-esc="'{:,.2f}'.format(avg)"/>
+                                                  <t t-set="average" t-value="average + avg"/>
+                                            </td>
+
+                                            <td width="5%" style="border:1px solid black;">
+            <!--                                       <span t-esc="line['uom']"/>-->
+                                            </td>
+
+                                            <td width="15%" class="text-center" style="border:1px solid black;">
+            <!--                                    <span style="float:center;" t-esc="'{:,.2f}'.format(line['sale_qty'])"/>-->
+                                            </td>
+
+
+                                            <td width="15%" class="text-center" style="border:1px solid black;">
+                                                <span style="float:center;" t-esc="'{:,.2f}'.format(amount)"/>
+                                                <t t-set="tamount" t-value="tamount + amount"/>
+
+                                            </td>
+                                        </tr>
+                                        <t t-set="count" t-value="0"/>
+                                   </t>
+                                    <tr>
+                                        <td colspan="7"> <strong style="color: white;">.</strong></td>
+                                    </tr>
+            <!--                       For Grand Total-->
+
+                                        <tr>
+
+                                            <td colspan="3" class="text-center" width="35%" style="border:1px solid black;">
+                                                <Strong>Grand Total</Strong>
+            <!--                                     <span t-esc="line['description']"/>-->
+                                            </td>
+
+                                            <td width="15%" class="text-center" style=" border:1px solid black;">
+
+                                                  <span style="float:center;" t-esc="'{:,.2f}'.format(average)"/>
+                                            </td>
+
+                                            <td width="5%" style="border:1px solid black;">
+                                            </td>
+
+                                            <td width="15%" class="text-center" style="border:1px solid black;">
+                                            </td>
+
+                                            <td width="15%" class="text-center" style="border:1px solid black;">
+                                                <span style="float:center;" t-esc="'{:,.2f}'.format(tamount)"/>
+
+                                            </td>
+                                        </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+             </t>
+         </t>
+    </template>
+</odoo>
+

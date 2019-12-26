@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record model='ir.ui.view' id='sale_wizard_form'>
+             <field name="name">wizard.sale.history.form</field>
+            <field name="model">wizard.sale.history</field>
+            <field name="arch" type="xml">
+                <form string="Wizard">
+                        <group string="Sales Report">
+                            <field name="date_from" string="Date from"/>
+                            <field name="date_to" string="Date To"/>
+                        </group>
+                       
+                        <group>
+                            <field name="report_type" string="Report Type"/>
+                        </group>
+                        <group>
+                            <field name="indv_product"  attrs="{'invisible':[('report_type','!=','indivproduct_wise')]}"/>
+                            <field name="warehouse"  attrs="{'invisible':[('report_type','!=','indivproduct_wise')]}"/>
+<!--                            <field name="category"  attrs="{'invisible':[('report_type','!=','product_wise')]}"/>-->
+<!--                            <field name="partner" attrs="{'invisible':[('report_type','!=','sale_partywise')]}"/>-->
+                        </group>
+
+                    <footer>
+                        <button name="print_report_attendance" type="object" default_focus="1"
+                                string="Product Wise Report" class="oe_highlight"
+                                context="{'xls_export':1}" icon="fa-download"/>
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+        <record model='ir.actions.act_window' id='product_wizard_act'>
+            <field name="name">Product Wise Report</field>
+            <field name="res_model">wizard.sale.history</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="sale_wizard_form"/>
+            <field name="target">new</field>
+        </record>
+
+        <report
+            id="product_sale_xlsx"
+            model="wizard.sale.history"
+            string="Product Wise Report"
+            report_type="qweb-pdf"
+            name="product_wise_report.pro_wise_report"
+            file="product_wise_report.pro_wise_report"
+        />
+
+
+       <menuitem name="Product Sales"  id="export_product_excel" action="product_wizard_act"  parent="sale.menu_sale_report"/>
+    </data>
+</odoo>
