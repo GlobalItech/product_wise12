@@ -7,7 +7,7 @@
     'author': 'Itech reosurces',
     'company': 'ItechResources',
     'depends': [
-                'account_accountant_cbc',
+                'account',
                 'stock',
                 'sale',
                 'purchase',
